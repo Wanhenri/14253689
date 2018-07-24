@@ -1,5 +1,7 @@
 # Projeto 'teste'
 
+Em processo de aprendizado. Vendo as opções existentes para criar um README resumido e também praticando os comandos do git.
+
 > Projeto 1
 
 > Projeto 2
