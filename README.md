@@ -29,8 +29,7 @@ require 'redcarpet'
 markdown = Redcarpet.new("Hello World!")
 puts markdown.to_html
 ```
-```
-   MATLAB
+```matlab
 %http://www.public.asu.edu/~hhuang38/matlab_netcdf_guide.pdf
 %https://www.mathworks.com/help/matlab/examples/creating-plots-with-two-y-axes.html
 ncid = netcdf.open('/stornext/online8/mcga/w.santos/TQ0299L064/MAY2015_24Z_12Z_NCEP.nc','NOWRITE');
@@ -56,7 +55,7 @@ colorbar
 hold on
 contour(lon1,lat1,map1,'k-')
 ```
-```
+```sh
 export inctime=/home/smagnum/area_de_Trabalho/inctime/inctime
 echo inctime=$inctime
 
