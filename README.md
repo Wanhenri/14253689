@@ -86,9 +86,18 @@ Content in the first column | Content in the second column
 | git diff | Show file differences that haven't been staged |
 
 
-- [x] Finish my changes
-- [ ] Push my commits to GitHub
-- [ ] Open a pull request
+- [ ] grib2prev-bin-ctl 
+- [ ] template 
+- [ ] bin for mask 
+- [ ] bin for eqts 
+- [ ] imerge global(data) 
+- [ ] era-interim(data) 
+- [x] dtaylor 
+- [x] rms-bias
+- [x] imagens
+- [x] mascara
+- [x] series
+- [x] eqts
 
 
 This site was built using [GitHub Pages](https://teste/)
