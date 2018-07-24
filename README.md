@@ -1,6 +1,6 @@
 # Projeto 'teste'
 
-[![Github-Release](https://img.shields.io/sonar/4.2/http/sonar.petalslink.com/org.ow2.petals%3Apetals-se-ase/coverage.svg)]
+[![Github-Release](https://img.shields.io/sonar/4.2/http/sonar.petalslink.com/org.ow2.petals%3Apetals-se-ase/coverage.svg)
 
 Em processo de aprendizado. Vendo as opções existentes para criar um README resumido e também praticando os comandos do git.
 
