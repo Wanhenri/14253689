@@ -43,12 +43,12 @@ precMay = netcdf.getVar(ncid,10,[0 0 0],[900 450 1],'double')
 lon1 = netcdf.getVar(ncid,0,0,900)
 lat1 = netcdf.getVar(ncid,1,0,450)
 for p = 1:900
-for q = 1:450
+  for q = 1:450
 	if abs(precMay(p,q)) > 99
 		precMay(p,q) = 0;
 	end
 	map1(q,p) = precMay(p,q);
-end
+  end
 end
 pcolor(lon1,lat1,map1)
 shading interp
