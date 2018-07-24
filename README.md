@@ -1,1 +1,1 @@
-# Projeto 'teste': P$%#S&$##.sh [![Build Status]
+# Projeto 'teste'
