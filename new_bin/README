@@ -1,0 +1,56 @@
+Title: Converter dados do modelo T299 para outras grades
+
+Author: Wanderson Henrique dos Santos
+
+Date: July 12, 2018  
+*[Most recently updated: ]
+
+Language: Portugues
+
+Programa com o intuito de facilitar a interpolacao de grade e gravacao para um arquivo binario a partir de um arquivo netCDF.
+
+DESCRICAO
+    Script com algumas funcoes pre-definidas para geracao de arquivos de mascara a partir de um arquivo de mascara
+    com qualquer grade inicial.
+    Inicialmente, vamos extrair a variavel necessaria para a mudança de grade. Dado que o arquivo possui diversas 
+    variaveis.    Em seguida, com a funcao new_grid iremos escrever um arquivo .txt (ou qualquer extensao de texto) com as
+    coordenadas da nova grade. Apos os passo anteriores, iremos usar um comando do cdo, rempabil, para criar um novo arquivo
+    em netCDF com a nova grade.
+    Passo todos os passos anteriores, iremos escrever um template que serácapaz de realizar a leitura do arquivo binario
+    que sera gravado. Antes de iniciar a gravacao do binario, iremos criar o arquivo com extensao .gs para que seja feito
+    a gravacao do arquivo binario(arquivo esse que sera gravado no programa grads). Criado o arquivo .gs, iremos roda-lo
+    no grads e assim finalizando o processo desse script
+
+<><><><><><><><><><><><>EXEMPLO
+Exemplo abaixo dado com previsao de 24h, com condicoes iniciais do NCEP:
+
+Dando as coordenadas necessarias para gerar a nova grade, será gravado nesse
+arquivo.txt (ou qualquer extensao de texto)
+cat >recorte.txt << EOF2
+
+Dado original da rodada do Modelo T299 com dados iniciais do NCEP
+MAY2015_24Z_12Z_NCEP.nc
+
+utilizando o cdo iremos extrair a variavel prec do dado original,
+gerando esse novo arquivo com apenas uma variavel
+cdo -r -select,name=prec MAY2015_24Z_12Z_NCEP_prec.nc
+
+em seguida, com o arquivo .txt da nova grade e o arquivo com a unica variavel,
+iremos interpolar e gerar o arquivo com a nova grade
+cdo -r remapbil,recorte.txt ofile  MAY2015_24Z_12Z_NCEP_SA.nc
+
+Faremos o leitor do arquivo binario com base nas novas coordenadas, nome da variavel, tempo etc
+cat >MAY2015_24Z_12Z_NCEP_SA.ctl << EOF2  EOF2
+
+Faremos o script q irá gravar o arquivo binario
+cat > criar_bin_prec.gs << EOF2  EOF2
+
+rodar o script para gravacao do binario
+grads -lc criar_bin_prec.gs)
+<><><><><><><><><><><FIM DO EXEMPLO
+
+Pre-requisitos:
+->Instalacao do cdo (Climate Data Operators)
+->grads
+->ncrename
+

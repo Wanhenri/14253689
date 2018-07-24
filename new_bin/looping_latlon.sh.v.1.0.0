@@ -1,0 +1,223 @@
+#!/bin/bash -x
+
+echo "script:"
+echo "looping_latlon.sh.v.1.0.0"                    
+#
+#script:
+#looping_latlon.sh.v.1.0.0                   nome antigo #looping_latlon_mask.sh 
+#
+echo "OBJETIVO"
+echo     "Criar um arquivo binario"
+#
+#
+#DESCRICAO
+#    Script com algumas funcoes pre-definidas para geracao de arquivos de mascara a partir de um arquivo de mascara
+#    com qualquer grade inicial.
+#    Inicialmente, vamos extrair a variavel necessaria para a mudança de grade. Dado que o arquivo possui diversas 
+#    variaveis.    Em seguida, com a funcao new_grid iremos escrever um arquivo .txt (ou qualquer extensao de texto) com as
+#    coordenadas da nova grade. Apos os passo anteriores, iremos usar um comando do cdo, rempabil, para criar um novo arquivo
+#    em netCDF com a nova grade.
+#    Passo todos os passos anteriores, iremos escrever um template que serácapaz de realizar a leitura do arquivo binario
+#    que sera gravado. Antes de iniciar a gravacao do binario, iremos criar o arquivo com extensao .gs para que seja feito
+#    a gravacao do arquivo binario(arquivo esse que sera gravado no programa grads). Criado o arquivo .gs, iremos roda-lo
+#   no grads e assim finalizando o processo desse script
+# 
+#    1 sim rodara a funç�
+#    0 não rodara a função
+#
+#    primeiro => extrair_var_
+#    segundo  => new_grid_
+#    terceiro => modify_grid_
+#    quarto   => criar_template_
+#    quinto   => criar_bin_
+#    sexto    => grava_bin_
+#
+#
+#LINGUAGEM
+#  	    cdo -r -select,name=var > extrair variavel
+#           cdo -r remapbil	   > muda a grade do arquivo
+#           grads -lc               > roda o script .gs
+#           ncrename                > renomea as variaveis
+#
+#
+#
+echo "CRIADO_POR         Wanderson H. dos Santos     (11/07/2018)" 
+#CRIADO_POR         Wanderson H. dos Santos     (11/07/2018) - copia do original looping_latlon_mask.sh
+#							       feito para geracao de mascara no programa EQTS
+# MODIFICADO_POR     Wanderson H. dos Santos     (12/07/2018) - criando funcoes
+#                     [nome]     (DD/MM/YYYY) -  Descricao
+#        	      [nome]     (DD/MM/YYYY) -  Descricao
+#
+#
+#Historico
+#  v1.0 2018-07-11, Wanderson H santos
+#	looping_latlon_mask.sh.v.1.0.0 
+#	Copia do arquivo original
+#  v1.0 2018-07-12, Wanderson H santos
+#	looping_latlon_mask.sh.v.1.0.0 
+#	Modificado e acrescentado a legenda
+#  v1.0 2018-07-12, Wanderson h santos
+#	modificado o nome do arquivo looping_latlon.sh.v.1.0.0
+#########################################################
+######################### Main body of script starts here
+#########################################################
+echo "Start Program"
+rm recorte.txt
+rm *NCEP_prec.nc
+rm *NCEP_SA.nc
+rm *NCEP_SA.ctl
+rm criar_bin_prec.gs
+
+dir=/stornext/online8/mcga/w.santos/TQ0299L064
+
+extrair_var_=0
+new_grid_=0
+modify_grid_=1
+criar_template_=0
+criar_bin_=0
+grava_bin_=0
+
+
+
+
+if [ $grava_bin_ -eq 0 ]  &&  [ $modify_grid_ -eq 0 ]    \
+                          &&  [ $criar_template_ -eq 0 ] \
+			  &&  [ $extrair_var_ -eq 0 ]    \
+			  &&  [ $criar_bin_ -eq 0 ]      \
+			  &&  [ $new_grid_ -eq 0 ]
+			then
+			    echo "escolha uma opção..."
+			    echo "Obrigado!"
+			    exit
+fi
+
+
+if [ $modify_grid_ -eq 1 ] 
+then   
+    modify_grid_()
+    {   
+    cat >recorte.txt << EOF2
+	gridtype=lonlat
+	xsize     = 120
+	ysize     = 143.5
+	xfirst    = 278.25
+	xinc      = 0.4
+	yfirst    = 10.5
+	yinc      = -0.4
+EOF2
+    }
+fi
+
+sleep 5
+
+for prev in 24 48 72
+do
+
+echo ${prev}
+echo "extrair var"
+if [ $extrair_var_ -eq 1 ]
+then
+extrair_var_()
+{
+#cdo -r -select,name=prec ${dir}/MAY2015_24Z_12Z_NCEP.nc MAY2015_24Z_12Z_NCEP_prec.nc
+cdo -r -select,name=prec ${dir}/MAY2015_${prev}Z_12Z_NCEP.nc MAY2015_${prev}Z_12Z_NCEP_prec.nc
+}
+fi
+
+sleep 5
+echo ${prev}
+echo "new grid"
+if [ $new_grid_ -eq 1 ]
+then
+new_grid_()
+{
+
+#cdo -r remapbil,recorte.txt MAY2015_24Z_12Z_NCEP_prec.nc MAY2015_24Z_12Z_NCEP_SA.nc
+cdo -r remapbil,recorte.txt MAY2015_${prev}Z_12Z_NCEP_prec.nc MAY2015_${prev}Z_12Z_NCEP_SA.nc
+
+}
+fi
+
+sleep 5
+echo ${prev}
+echo "criar template"
+
+if [ $criar_template_ -eq 1 ]
+then
+criar_template_()
+{
+cat >MAY2015_${prev}Z_12Z_NCEP_SA.ctl << EOF2
+DSET  ^MAY2015_${prev}Z_12Z_NCEP_SA.bin
+XDEF 120 LINEAR 278.250000 0.400000
+YDEF 143 LINEAR -46.300000 0.400000
+ZDEF 1 LEVELS 0
+*TDEF 1 LINEAR 12:00Z29feb2016 2dy
+TDEF 25 linear 12:00Z01MAY2015 24hr
+TITLE  MAY2015_${prev}Z_12Z_NCEP_SA.bin  120x143 grid
+undef -9.99e+08
+VARS  1
+PREC    0   61,    1,    0  ** sfc    TOTAL PRECIPITATION                     (KG/M2/DAY       )
+ENDVARS
+EOF2
+}
+fi
+
+sleep 5
+echo ${prev}
+echo "criar bin"
+if [ $criar_bin_ -eq 1 ]        
+then
+criar_bin_()
+{
+cat >criar_bin_prec.gs << EOF2
+'reinit'
+'c'
+*abre modelo
+'sdfopen MAY2015_${prev}Z_12Z_NCEP_SA.nc'
+*grava modelo
+'set fwrite MAY2015_${prev}Z_12Z_NCEP_SA.bin'
+'set gxout fwrite'
+*lon
+'set x 1 120'
+*lat
+'set y 1 143'
+'tdef 25 linear 12:00Z01MAY2015 24hr'
+'d prec'
+'disable fwrite'
+say "Fim gravacao"
+'quit'
+EOF2
+}
+fi
+
+sleep 5
+echo ${prev}
+echo "grava bin"
+if [ $grava_bin_ -eq 1 ]        
+then
+grava_bin_()
+{
+
+	grads -lc criar_bin_prec.gs
+	rm criar_bin_prec.gs
+}
+fi
+
+#if [ $extrair_var_ -eq 1 ]	;then extrair_var_	; fi
+#if [ $criar_bin_ -eq 1 ]	;then criar_bin_	; fi
+#if [ $criar_template_ -eq 1 ]	;then criar_template_	; fi
+#if [ $grava_bin_ -eq 1 ]	;then grava_bin_	; fi
+#if [ $modify_grid_ -eq 1 ]	;then	modify_grid_	; fi
+#if [ $new_grid_ -eq 1 ]		;then	new_grid_	; fi
+
+#if [ $grava_bin_ -eq 0 ]  &&  [ $modify_grid_ -eq 0 ]	 \
+#			  &&  [ $criar_template_ -eq 0 ] \
+#			  &&  [ $extrair_var_ -eq 0 ]    \
+#			  &&  [ $criar_bin_ -eq 0 ]      \
+#			  &&  [ $new_grid_ -eq 0 ] 
+#then
+#	echo "escolha uma opção..."
+#	echo "Obrigado!"
+#    
+#fi
+done
