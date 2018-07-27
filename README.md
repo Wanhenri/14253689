@@ -92,6 +92,7 @@ Porém podem ser alterados de acordo com as necessidades de cada usuário. Assim
 
 Some Markdown text with <span style="color:blue">some *blue* text</span>.
 <span style="color:blue">teste</span>.
+<p>Some Markdown text with <span style="color:blue">some <em>blue</em> text</span>.</p>
 
 
 ![#f03c15] OBS.2 `#f03c15` Recomenda-se a instalação do pacote no scratchin, uma vez que o home tem espaço bastante restrito e não será possível a instalação de muitos outros sistemas nesse mesmo disco. O scratchin tem mais espaço, mas tem a desvantagem de não ter backup, o que pode ser desconsiderado uma vez que a versão está armazenada no SVN, e nele deposita-se a confiança de salvaguarda dos códigos do CPTEC
