@@ -77,7 +77,7 @@ compilar - compila os módulos de perturbação e o modelo **BAM**
 testcase - aloca os dados necessários para testar a instalação
 ajuda - mostra mensagem de ajuda para usuário, o qual também é feito na ausência de argumentos de entrada.
 
-ATENÇÃO:
+**ATENÇÃO:**
 1. o script config_spcon.ksh possui quatro variáveis principais que comandam todo o processo de configuração e instalação, as quais são listadas abaixo com respectivos valores recebidos por padrão:	
 2. a variável $spcon_name deverá ser modificada para que fica de coerente. _!!!criar código para que copie nome automatico!!_
 
@@ -90,12 +90,11 @@ ATENÇÃO:
 
 Porém podem ser alterados de acordo com as necessidades de cada usuário. Assim, o primeiro passo é verificar no script config_spcon.ksh se estas variáveis estão corretas ou devem ser alteradas. 
 
-![#f03c15] OBS.1 `#f03c15`: Recomenda-se a instalação do pacote no scratchin, uma vez que o home tem espaço bastante restrito e não será possível a instalação de muitos outros sistemas nesse mesmo disco. O scratchin tem mais espaço, mas tem a desvantagem de não ter backup, o que pode ser desconsiderado uma vez que a versão está armazenada no SVN, e nele deposita-se a confiança de salvaguarda dos códigos do CPTEC
+[#f03c15] OBS.1 `#f03c15`: Recomenda-se a instalação do pacote no scratchin, uma vez que o home tem espaço bastante restrito e não será possível a instalação de muitos outros sistemas nesse mesmo disco. O scratchin tem mais espaço, mas tem a desvantagem de não ter backup, o que pode ser desconsiderado uma vez que a versão está armazenada no SVN, e nele deposita-se a confiança de salvaguarda dos códigos do CPTEC
 
-![#f03c15] OBS.2 `#f03c15`: Lembre-se que alterando alguma destas variáveis as instruções abaixo podem não funcionar corretamente copiando e colando o comando no terminal, deve-se colocar o devido valor definido dentro do script _config_smg.ksh_
+[#f03c15] OBS.2 `#f03c15`: Lembre-se que alterando alguma destas variáveis as instruções abaixo podem não funcionar corretamente copiando e colando o comando no terminal, deve-se colocar o devido valor definido dentro do script _config_smg.ksh_
 
-Para criar a estrutura (???????), basta digitar em sequência:
-
+	Para criar a estrutura (?????), basta digitar em sequencia:
 	```sh
 	$ ./config_spcon.ksh configurar
 	```
