@@ -90,20 +90,9 @@ ajuda - mostra mensagem de ajuda para usuário, o qual também é feito na ausê
 
 Porém podem ser alterados de acordo com as necessidades de cada usuário. Assim, o primeiro passo é verificar no script config_spcon.ksh se estas variáveis estão corretas ou devem ser alteradas. 
 
+Some Markdown text with <span style="color:blue">some *blue* text</span>.
+<span style="color:blue">teste</span>.
 
-
-<p>This text needs to <del>strikethrough</del> <ins>since it is redundant</ins>!</p>
-<p><tt>This text is teletype text.</tt></p>
-<font color="blue">Colored text</font>
-<center>This text will be center-aligned.</center>
-<p>This text contains <sup>superscript</sup> text.</p> 
-<p>This text contains <sub>subscript</sub> text.</p>
-<p>The project status is <span style="color:green;font-weight:bold">GREEN</span> even though the bug count / developer may be in <span style="color:red;font-weight:bold">red.</span> - Capability of span
-<p><small>Disclaimer: Wiki also supports showing small text</small></p>
-<p><big>Bigger text</big></p>
-
-
-<font color="blue">Colored text</font> teste teste teste
 
 ![#f03c15] OBS.2 `#f03c15` Recomenda-se a instalação do pacote no scratchin, uma vez que o home tem espaço bastante restrito e não será possível a instalação de muitos outros sistemas nesse mesmo disco. O scratchin tem mais espaço, mas tem a desvantagem de não ter backup, o que pode ser desconsiderado uma vez que a versão está armazenada no SVN, e nele deposita-se a confiança de salvaguarda dos códigos do CPTEC
 
