@@ -89,8 +89,10 @@ ajuda - mostra mensagem de ajuda para usuário, o qual também é feito na ausê
 	```
 
 Porém podem ser alterados de acordo com as necessidades de cada usuário. Assim, o primeiro passo é verificar no script config_spcon.ksh se estas variáveis estão corretas ou devem ser alteradas. 
-
-color.Println(color.Red("OBS.1")): Recomenda-se a instalação do pacote no scratchin, uma vez que o home tem espaço bastante restrito e não será possível a instalação de muitos outros sistemas nesse mesmo disco. O scratchin tem mais espaço, mas tem a desvantagem de não ter backup, o que pode ser desconsiderado uma vez que a versão está armazenada no SVN, e nele deposita-se a confiança de salvaguarda dos códigos do CPTEC
+```go
+color.Println(color.Red("OBS.1:"))
+```
+ Recomenda-se a instalação do pacote no scratchin, uma vez que o home tem espaço bastante restrito e não será possível a instalação de muitos outros sistemas nesse mesmo disco. O scratchin tem mais espaço, mas tem a desvantagem de não ter backup, o que pode ser desconsiderado uma vez que a versão está armazenada no SVN, e nele deposita-se a confiança de salvaguarda dos códigos do CPTEC
 
 [#f03c15] OBS.2 `#f03c15`: Lembre-se que alterando alguma destas variáveis as instruções abaixo podem não funcionar corretamente copiando e colando o comando no terminal, deve-se colocar o devido valor definido dentro do script _config_smg.ksh_
 
