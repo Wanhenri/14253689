@@ -10,21 +10,22 @@ Para acessar a versão do código do sistema SPCON, as seguintes etapas deverão
 	
 ###### 1.Login no supercomputador TUPA:
 	
-		```sh
-		$ ssh ************************* -XC
-		```
-###### 2.Acessar o diretório home do usuário no _scratchin_ **(/scratchin/grupos/ensemble/home/${USER})**, o que pode ser feito via variável **$SUBMIT_HOME**:
+```sh
+$ ssh ************************* -XC
+```
+
+###### 2.Acessar o diretório home do usuário no scratchin(/scratchin/grupos/ensemble/home/${USER}), o que pode ser feito via variável $SUBMIT_HOME:
 	
 	
-		```sh
-		$ cd $SUBMIT_HOME
-		```
+```sh
+$ cd $SUBMIT_HOME
+```
 	
-###### 3.Extração do código do **SPCON** do ramo _trunk_ para a raiz do usuário no scratchin usando o comando 'co'(commit no svn):
+###### 3.Extração do código do SPCON do ramo trunk para a raiz do usuário no scratchin usando o comando 'co'(commit no svn):
 	
-		```sh
-		$ svn co https://svn.cptec.inpe.br/smg/trunk/spcon **<nome_dir>**
-		```
+```sh
+$ svn co https://svn.cptec.inpe.br/smg/trunk/spcon **<nome_dir>**
+```
 		recomenda-se colocar: oensMB09_<nome>
 		Em <nome> acrescentar uma terminação para diferenciar umas das outras. No caso de ter varias versões do original.
 	
