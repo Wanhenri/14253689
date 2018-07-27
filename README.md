@@ -31,24 +31,24 @@ recomenda-se colocar: oensMB09_`<nome>`
 Em nome acrescentar uma terminação para diferenciar umas das outras. No caso de ter varias versões do original.
 	
 ###### 3.1. Os seguintes pacotes de códigos e estruturas
-	- [x] Makefile
-	- [x] README
-	- [x] change_res.ksh
-	- [x] config
-	- [x] config_spcon.ksh
-	- [x] decanl
-	- [x] deceof
-	- [x] eof
-	- [x] eofhumi
-	- [x] eofpres
-	- [x] eoftemp
-	- [x] eofwind
-	- [x] fftpln
-	- [x] include
-	- [x] rdpert
-	- [x] recanl
-	- [x] recfct
-	- [x] run	
+- [x] Makefile
+- [x] README
+- [x] change_res.ksh
+- [x] config
+- [x] config_spcon.ksh
+- [x] decanl
+- [x] deceof
+- [x] eof
+- [x] eofhumi
+- [x] eofpres
+- [x] eoftemp
+- [x] eofwind
+- [x] fftpln
+- [x] include
+- [x] rdpert
+- [x] recanl
+- [x] recfct
+- [x] run	
 
 
 ###### 4.caso um erro ocorra por indicar que a versão não exista, ou para certificar que esta baixando a versão mais recente, use o comando list para avaliar 	o numero da última versão/revisão e escolhe-la com o comando anterior. Para listar as versões, digite:
