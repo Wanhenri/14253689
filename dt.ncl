@@ -40,6 +40,11 @@
 ;#    Ultima versao que tem os blocos de v1.0.0
 ;#  v1.0.3a 2018-07-20, Wanderson H Santos
 ;#    Apenas uma copia realizada de comentarios feitos
+;#  v1.0.5 2018-07-30, Wanderson H Santos
+;#    Looping da media para 6 arquivos finalizados
+;#    looping para 2 areas finalizadas
+;#    versao alocada no github finalizados
+;#    
 
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
