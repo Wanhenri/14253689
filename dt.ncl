@@ -52,7 +52,7 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl" 
 load "taylor_diagram_mod-3.25.ncl"
 
-;# WS -> v1.0.5
+
 ;# WS -> v1.0.3 e v1.0.3a
 ;# WS -> v1.0.2
 ;# WS -> v1.0.1
@@ -68,50 +68,6 @@ files = systemfunc("ls *.nc")
   
   ;# separa o conjunto de dados do file path do arquivo f[n]
 ;  dsizes = getfiledimsizes(f[4])
-
-;# WS v1.0.3a  -> Objetivo de criar uma variavel temporaria que irá alocar
-;# teste 1.2.0   2018-07-26           todos os dados do calculo de media
-k=0
-w=0
-do while(k.le.1) .and. (w.le.1)
-  q=0
-  p=6
-  
-  do while(q.le.6) .and. (p.le.12)
-  
-    if(k.eq.w) then ; print("OK"+w)
-         n = 1 
-         i = q ;#0 +6
-         j = p ;#6 +6
-    end if
-  
-    do while(n.le.6) .and. (i.le.j)
-  
-      path = getfilepath (f[n])
-      print(path)
-      T_agg = f[n]->prec(:,:,:)
-      T_agg@_FillValue=-9.99e+08
-      nni=25
-  
-      do nn=0, nni-1
-        ;TT=dim_avg_Wrap(dim_avg_Wrap(T_agg(:,{-36:0},{280:325})))
-        TT=dim_avg_Wrap(dim_avg_Wrap(T_agg(:,{lai(k):laf(k)},{loi(k):lof(k)})))
-        ;print(TT)
-        x(i,nn)=TT(nn)
-      end do
-  
-    i=i+1
-    n=n+1
-    end do
-  
-  q=q+6
-  p=p+6
-  end do
-
-k=k+1
-w=w+1
-end do
-print (x)  
 
 
 ;# WS
@@ -230,4 +186,49 @@ print (x)
   end do
 ;;;;---{FIM DA CRIACAO ARQUIVO CSV}-------------------------------------------------------------------
 
+;# Inicio do programa
 
+;# WS -> v1.0.5   -> comentarios feito na parte de histórico
+;# WS -> v1.0.3a  -> Objetivo de criar uma variavel temporaria que irá alocar
+;# teste 1.2.0   2018-07-26           todos os dados do calculo de media
+k=0
+w=0
+do while(k.le.1) .and. (w.le.1)
+  q=0
+  p=6
+  
+  do while(q.le.6) .and. (p.le.12)
+  
+    if(k.eq.w) then ; print("OK"+w)
+         n = 1 
+         i = q ;#0 +6
+         j = p ;#6 +6
+    end if
+  
+    do while(n.le.6) .and. (i.le.j)
+  
+      path = getfilepath (f[n])
+      print(path)
+      T_agg = f[n]->prec(:,:,:)
+      T_agg@_FillValue=-9.99e+08
+      nni=25
+  
+      do nn=0, nni-1
+        ;TT=dim_avg_Wrap(dim_avg_Wrap(T_agg(:,{-36:0},{280:325})))
+        TT=dim_avg_Wrap(dim_avg_Wrap(T_agg(:,{lai(k):laf(k)},{loi(k):lof(k)})))
+        ;print(TT)
+        x(i,nn)=TT(nn)
+      end do
+  
+    i=i+1
+    n=n+1
+    end do
+  
+  q=q+6
+  p=p+6
+  end do
+
+k=k+1
+w=w+1
+end do
+print (x)  
