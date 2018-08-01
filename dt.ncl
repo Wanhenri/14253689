@@ -130,6 +130,23 @@ files = systemfunc("ls *.nc")
     write_table(csv_filename, "a", alist, format)
 
   end do
+;# SAIDA DESSE BLOCO
+;# obs.: Ela pode variar de acordo com os dados existente dentro dos diretórios.
+;# No diretório da data da criação, constava esses arquivos:
+
+;# WS
+;;;# 1,GPM_REC_ACUM_24h_grib2.nc
+;;;# 2,MAY2015_24Z_12Z_NCEP.nc
+;;;# 3,MAY2015_24Z_12Z_SMG.nc
+;;;# 4,MAY2015_48Z_12Z_NCEP.nc
+;;;# 5,MAY2015_48Z_12Z_SMG.nc
+;;;# 6,MAY2015_72Z_12Z_NCEP.nc
+;;;# 7,MAY2015_72Z_12Z_SMG.nc
+;;;# 8,prev.2015.mar.24h_seldate.nc
+;;;# 9,prev.2015.mar.48h_seldate.nc
+;;;#10,prev.2015.mar.72h_seldate.nc
+;WS   
+
 ;;;
 ;;;;---{FIM do comando: MOSTRAR A ORDEM DOS ARQUIVOS QUE ESTAO SENDO ABERTOS}
 ;;;
