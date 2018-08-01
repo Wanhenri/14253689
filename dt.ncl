@@ -44,7 +44,12 @@
 ;#    Looping da media para 6 arquivos finalizados
 ;#    looping para 2 areas finalizadas
 ;#    versao alocada no github finalizados
-;#    
+;#  v1.0.6 2018-07-30, Wanderson H. Santos
+;#    crianção das variaveis temporarias para observado e GFS
+;#    criado varios arquivos com a latitude e longitude de cada area. 
+;#  v1.0.6 2018-08-01, Wanderson H. Santos
+;#    crianção das variaveis temporarias para observado e GFS
+;#    criado varios arquivos com a latitude e longitude de cada area.
 
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
@@ -64,7 +69,7 @@ files = systemfunc("ls *.nc")
   
   ;# separa a variavel file path do arquivo f[n]
   ;# https://www.ncl.ucar.edu/Document/Functions/Built-in/getfilepath.shtml
-  path = getfilepath (f[4])
+  ;path = getfilepath (f[4])
   
   ;# separa o conjunto de dados do file path do arquivo f[n]
 ;  dsizes = getfiledimsizes(f[4])
@@ -128,63 +133,98 @@ files = systemfunc("ls *.nc")
 ;;;
 ;;;;---{FIM do comando: MOSTRAR A ORDEM DOS ARQUIVOS QUE ESTAO SENDO ABERTOS}
 ;;;
-;;;;# WS -> v1.0.2
-;;;;# WS -> v1.0.1
-;;;;#obs.:a versao do topo que é a utilizada
+
+;-------------------------------------------------------------------------------------------
+;---{CRIAR ARQUIVO CSV}
+
 ;;;;-----------------------------------------------------------------------------------------
-;;;;---{CRIAR ARQUIVO CSV}
+area =(/ "SA" ,  "La_Plata",  "southeast",   "Central_West" , "northeast" ,"Amazon" /)
+lai  =(/  -36 ,  -36       ,  -24        ,  -24             , -12         ,  -12    /)
+laf  =(/    0 ,  -24       ,  -12        ,  -12             , 0           ,  -0     /)
+loi  =(/  280 ,  295       ,  310        ,  295             , 310         ,  295    /)
+lof  =(/  325 ,  315       ,  325        ,  310             , 325         ,  310    /)
 
-;;;; #Bloco independente do bloco anterior. Os dados São lidos diretamente do 'f', assim acrescentando 
-;;;;# o 'n' independente
 
-;;;;#>>>>>>>>>>DESCRICAO
-;;;;# Pega os dados numericos de precipitacao para cada dia. Os modelos e observados são selecionados
-;;;;# no T_agg = f[n], sendo o 'n' a posicao de cada arquivo na variavel 'f'
-  csv_filename = getfilepath (f[4])+".csv"    ;# name of CSV file to create
-
-  dq = str_get_dq()                ;# double quote character
-
-;;;;#---Create dummy mixed data to write to CSV file
-
-  fields = (/"TIME","NAME","LAT","LON","ELEV","PREC"/)
-;;;;# numero de tempos do arquivo
-  nvals  = 25
+    ; #Bloco independente do bloco anterior. Os dados São lidos diretamente do 'f', assim acrescentando 
+    ;# o 'n' independente
   
-  delete(ids) ;# deletando o ids criado anteriomente 
+    ;#>>>>>>>>>>DESCRICAO
+    ;# Pega os dados numericos de precipitacao para cada dia. Os modelos e observados são selecionados
+    ;# no T_agg = f[n], sendo o 'n' a posicao de cada arquivo na variavel 'f'
   
-  ; #criado a matriz
-  ids    = ispan(1,nvals,1)
+  pp=6
+  do var_dir=0, pp-1
+
+    k=0
+    do while(k.le.5)
   
-  fields = dq + fields + dq                      ; Pre/append quotes to field names
-  header = [/str_join(fields,",")/]              ; Header is field names separated
-                                                 ; by commas.
-  format = "%d,%g,%g,%g,%s"
-
-;;;;;# Note: if you want spaces in CSV file, use the following format string.
-
-  format = "%3d,%7.2f,%8.2f,%s, %6.5f"           ;# Format to use for each variable.
-
-  write_table(csv_filename, "w", header, "%s")   ;# Write header to CSV file.
+        path = getfilepath (f[var_dir])
+        
+        ;# o 'f' indica o conjunto de arquivos e o [n] indica a posição exata de qual arquivo queremos abrir
+        ;#T_agg = f[1]->prec(:,:,:)  
+        T_agg = f[var_dir]->prec(:,:,:)  
+        
+        T_agg@_FillValue=-9.99e+08
+        
+        ;# o nome do arquivo q será salvo no diretório
+        csv_filename = getfilepath (f[var_dir])+"_area_"+area(k)+".csv"    ;# name of CSV file to create
+        
+        ;# recorta o nome do arquivo
+        teste= str_get_cols(csv_filename, 0,19)
+        print(teste)
   
-;;;;# Loop through "nvals" and create dummy values to append
-;;;;# a single single line of data to the the CSV file.
+        dq = str_get_dq()                ;# double quote character
+      
+        ;#---Create dummy mixed data to write to CSV file
+      
+        fields = (/"TIME","LATi","LATf","LONi","LONf","NAME","PREC"/)
+        ;# numero de tempos do arquivo
+        nvals  = 25
+        
+        ;delete(ids) ;# deletando o ids criado anteriomente 
+        
+        ; #criado a matriz
+        ids    = ispan(1,nvals,1)
+        
+        fields = dq + fields + dq                      ; Pre/append quotes to field names
+        header = [/str_join(fields,",")/]              ; Header is field names separated
+                                                       ; by commas.
+      ;;  format = "%d,%g,%g,%g,%s"
+      
+      ;;# Note: if you want spaces in CSV file, use the following format string.
+      
+        ;#format = "%3d,%7.2f,%8.2f,%s, %6.5f"           ;# Format to use for each variable.
+        format = "%3d,%3d,%3d,%3d,%3d,%s, %6.5f"           ;# Format to use for each variable.
+      
+        write_table(csv_filename, "w", header, "%s")   ;# Write header to CSV file.
+        
+      ;# Loop through "nvals" and create dummy values to append
+      ;# a single single line of data to the the CSV file.
+      
+          lati    = lai(k) 
+          latf    = laf(k)
+          loni    = loi(k)
+          lonf    = lof(k)
+          arquivo   = csv_filename ;# path
+  
+        do n=0,nvals-1
+       
+         ; print(n)
+          source = dim_avg_Wrap(dim_avg_Wrap(T_agg(n,{lai(k):laf(k)},{loi(k):lof(k)})))
+      
+      ;#---Put the values in a list, and append the mixed data to the CSV file
+      
+          alist  = [/ids(n),lati,latf,loni,lonf,arquivo,source/]
+          write_table(csv_filename, "a", alist, format)
+      
+        end do
 
-  do n=0,nvals-1
- 
-    print(n)
- 
-    lat    = 0
-    lon    = 0
-    elev   = path
-    source = dim_avg_Wrap(dim_avg_Wrap(T_agg(n,{-36:0},{280:325})))
+      k=k+1
+    end do
+end do
+;---{FIM DA CRIACAO ARQUIVO CSV}-------------------------------------------------------------------
 
-;;;;#---Put the values in a list, and append the mixed data to the CSV file
 
-    alist  = [/ids(n),lat,lon,elev,source/]
-    write_table(csv_filename, "a", alist, format)
-
-  end do
-;;;;---{FIM DA CRIACAO ARQUIVO CSV}-------------------------------------------------------------------
 
 ;# Inicio do programa
 
@@ -204,7 +244,8 @@ do while(k.le.1) .and. (w.le.1)
          i = q ;#0 +6
          j = p ;#6 +6
     end if
-  
+        ;# obs.: o 'n' varia de acordo com os arquivos existentes no diretório, lenvando
+        ;# em conta que ele está vinculado o 'f' do 'files'
     do while(n.le.6) .and. (i.le.j)
   
       path = getfilepath (f[n])
