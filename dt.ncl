@@ -57,6 +57,23 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl" 
 load "taylor_diagram_mod-3.25.ncl"
 
+;# Areas usadas por todas as etapas
+
+area =(/ "SA" ,  "La_Plata",  "southeast",   "Central_West" , "northeast" ,"Amazon" /)
+lai  =(/  -36 ,  -36       ,  -24        ,  -24             , -12         ,  -12    /)
+laf  =(/    0 ,  -24       ,  -12        ,  -12             , 0           ,  -0     /)
+loi  =(/  280 ,  295       ,  310        ,  295             , 310         ,  295    /)
+lof  =(/  325 ,  315       ,  325        ,  310             , 325         ,  310    /)
+
+;# Váriaveis temporárias utilizadas por todas as etapas
+;
+;# BAM-DAS e BAM (NCEP) com as 6 areas
+x = new( (/12,25/), float)
+;# dados do observado IMERG com todas as 6 areas
+ob = new( (/13,25/), float)
+;# GFS com as 6 areas
+gfs = new( (/12,25/), float)
+
 
 ;# WS -> v1.0.3 e v1.0.3a
 ;# WS -> v1.0.2
@@ -74,19 +91,6 @@ files = systemfunc("ls *.nc")
   ;# separa o conjunto de dados do file path do arquivo f[n]
 ;  dsizes = getfiledimsizes(f[4])
 
-
-;# WS
-;;;# 1,GPM_REC_ACUM_24h_grib2.nc
-;;;# 2,MAY2015_24Z_12Z_NCEP.nc
-;;;# 3,MAY2015_24Z_12Z_SMG.nc
-;;;# 4,MAY2015_48Z_12Z_NCEP.nc
-;;;# 5,MAY2015_48Z_12Z_SMG.nc
-;;;# 6,MAY2015_72Z_12Z_NCEP.nc
-;;;# 7,MAY2015_72Z_12Z_SMG.nc
-;;;# 8,prev.2015.mar.24h_seldate.nc
-;;;# 9,prev.2015.mar.48h_seldate.nc
-;;;#10,prev.2015.mar.72h_seldate.nc
-;WS   
 
 ;;;;# WS -> v1.0.2
 ;;;;# WS -> v1.0.1
@@ -155,12 +159,6 @@ files = systemfunc("ls *.nc")
 ;---{CRIAR ARQUIVO CSV}
 
 ;;;;-----------------------------------------------------------------------------------------
-area =(/ "SA" ,  "La_Plata",  "southeast",   "Central_West" , "northeast" ,"Amazon" /)
-lai  =(/  -36 ,  -36       ,  -24        ,  -24             , -12         ,  -12    /)
-laf  =(/    0 ,  -24       ,  -12        ,  -12             , 0           ,  -0     /)
-loi  =(/  280 ,  295       ,  310        ,  295             , 310         ,  295    /)
-lof  =(/  325 ,  315       ,  325        ,  310             , 325         ,  310    /)
-
 
     ; #Bloco independente do bloco anterior. Os dados São lidos diretamente do 'f', assim acrescentando 
     ;# o 'n' independente
