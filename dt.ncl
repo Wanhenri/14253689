@@ -50,6 +50,7 @@
 ;#  v1.0.6 2018-08-01, Wanderson H. Santos
 ;#    crianção das variaveis temporarias para observado e GFS
 ;#    criado varios arquivos com a latitude e longitude de cada area.
+;#    acrescentando as medias dos modelos e observado 
 
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
@@ -243,9 +244,11 @@ end do
 
 ;# Inicio do programa
 
+;# WS -> v1.0.6   ->
 ;# WS -> v1.0.5   -> comentarios feito na parte de histórico
 ;# WS -> v1.0.3a  -> Objetivo de criar uma variavel temporaria que irá alocar
 ;# teste 1.2.0   2018-07-26           todos os dados do calculo de media
+;# inicio: Bloco>>BAM-DAS e BAM (NCEP) com as 6 areas
 k=0
 w=0
 do while(k.le.1) .and. (w.le.1)
@@ -269,10 +272,8 @@ do while(k.le.1) .and. (w.le.1)
       T_agg@_FillValue=-9.99e+08
       nni=25
   
-      do nn=0, nni-1
-        ;TT=dim_avg_Wrap(dim_avg_Wrap(T_agg(:,{-36:0},{280:325})))
-        TT=dim_avg_Wrap(dim_avg_Wrap(T_agg(:,{lai(k):laf(k)},{loi(k):lof(k)})))
-        ;print(TT)
+      do nn=0, nni-1        
+        TT=dim_avg_Wrap(dim_avg_Wrap(T_agg(:,{lai(k):laf(k)},{loi(k):lof(k)})))        
         x(i,nn)=TT(nn)
       end do
   
@@ -288,3 +289,30 @@ k=k+1
 w=w+1
 end do
 print (x)  
+;# fim: Bloco>>BAM-DAS e BAM (NCEP) com as 6 areas 
+
+;# inicio: Bloco>>IMERGE com as 6 areas 
+k=0
+do while(k.le.1) 
+   
+    i=0
+    do while(i.le.12)
+  
+      path = getfilepath (f[0])
+      print(path)
+      T_agg = f[0]->PREC_surface(:,:,:)
+      T_agg@_FillValue=-9.99e+08
+      nni=25
+  
+      do nn=0, nni-1
+        TT=dim_avg_Wrap(dim_avg_Wrap(T_agg(:,{lai(k):laf(k)},{loi(k):lof(k)})))
+        ob(i,nn)=TT(nn)
+      end do
+  
+    i=i+1
+    end do
+
+k=k+1
+end do
+print (ob)  
+;# fim: Bloco>>IMERGE com as 6 areas 
