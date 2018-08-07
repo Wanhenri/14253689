@@ -317,7 +317,45 @@ end do
 print (ob)  
 ;# fim: Bloco>>IMERGE com as 6 areas 
 
+;inicio: Bloco>>GSF com as 6 areas  (TESTE)
+;modificar variaveis internas
+;versão feita para realizaçãod de testes
 
+; 1.0.0 gfs 
+;# varia as coordenadas
+k=0
+do while(k.le.1) 
+  
+   ;# varia a posição
+    i=0
+    do while(i.le.12)
+  
+      ;# varia os arquivos
+      n=7
+      do while(n.le.8)
+
+          path = getfilepath (f[n])
+          print(path)
+          print(k)
+          T_agg = f[n]->APCP_surface(:,:,:)
+          T_agg@_FillValue=-9.99e+08
+          nni=25
+      
+          do nn=0, nni-1
+            TT=dim_avg_Wrap(dim_avg_Wrap(T_agg(:,{lai(k):laf(k)},{loi(k):lof(k)})))
+            ob(i,nn)=TT(nn)
+          end do
+        n=n+1
+        end do
+
+      i=i+1
+      end do
+
+k=k+1
+end do
+print (ob)  
+
+;fim: Bloco>>GSF com as 6 areas  (TESTE)
 
 ;;;;<<><><><><>< AREA DESTINADA PARA UMA VERIFICAÇÃO -> TESTE DE MESA
 ;Existe uma falha em algum ponto, ainda não determinado
